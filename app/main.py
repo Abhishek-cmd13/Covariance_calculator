@@ -9,9 +9,9 @@ app = FastAPI()
 class TickerSymbols(BaseModel):
     symbols: list
 
-class PortfolioInput(BaseModel):
-    stocks: list
-    new_stock: str
+    class PortfolioInput(BaseModel):
+        stocks: list
+        new_stock: str
 
 def calculate_mean_correlation_excluding(correlation_matrix, new_stock):
     correlation_matrix_excluding = correlation_matrix.drop(columns=new_stock, index=new_stock)
@@ -53,12 +53,14 @@ def assess_diversification(portfolio_input: PortfolioInput):
         mean_correlation_including_new_stock = calculate_mean_correlation_including(correlation_matrix, new_stock)
         
         if mean_correlation_including_new_stock < mean_correlation_excluding_new_stock:
-            diversification_result = "Adding the new stock is diversifying the portfolio."
+            diversification_result = 1
+            # The Above result says that there is diversification 
         else:
-            diversification_result = "Adding the new stock is not diversifying the portfolio."
+            diversification_result = -1
+            # The Above result says that there concentration of portfolio
         
         return {
-            "correlation_matrix": correlation_matrix.to_dict(),
+            # "correlation_matrix": correlation_matrix.to_dict(),
             "mean_correlation_excluding_new_stock": round(mean_correlation_excluding_new_stock, 2),
             "mean_correlation_including_new_stock": round(mean_correlation_including_new_stock, 2),
             "diversification_result": diversification_result
