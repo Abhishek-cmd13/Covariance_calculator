@@ -9,7 +9,7 @@ app = FastAPI()
 class TickerSymbols(BaseModel):
     symbols: list
 
-    class PortfolioInput(BaseModel):
+class PortfolioInput(BaseModel):
         stocks: list
         new_stock: str
 
